@@ -5,22 +5,24 @@ export default [
     {
         input: ".temp/index.js",
         output: {
-            file: "index.js",
+            file: "dist/index.js",
             format: "cjs",
             sourcemap: true,
-            sourcemapFile: "index.js.map",
-            banner: `/*! @author Toru Nagashima <https://github.com/mysticatea> */`,
+            sourcemapFile: "dist/index.js.map",
+            banner:
+                "/*! @author Toru Nagashima <https://github.com/mysticatea> */",
         },
         plugins: [sourcemaps(), resolve()],
     },
     {
         input: ".temp/index.js",
         output: {
-            file: "index.mjs",
+            file: "dist/index.mjs",
             format: "es",
             sourcemap: true,
-            sourcemapFile: "index.mjs.map",
-            banner: `/*! @author Toru Nagashima <https://github.com/mysticatea> */`,
+            sourcemapFile: "dist/index.mjs.map",
+            banner:
+                "/*! @author Toru Nagashima <https://github.com/mysticatea> */",
         },
         plugins: [sourcemaps(), resolve()],
     },
