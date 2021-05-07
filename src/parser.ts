@@ -208,6 +208,7 @@ class RegExpParserState {
     public onQuantifier(
         start: number,
         end: number,
+        kind: "+" | "*" | "?" | "custom",
         min: number,
         max: number,
         greedy: boolean,
@@ -233,6 +234,7 @@ class RegExpParserState {
             start: element.start,
             end,
             raw: this.source.slice(element.start, end),
+            kind,
             min,
             max,
             greedy,

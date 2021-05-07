@@ -157,6 +157,7 @@ export interface LookbehindAssertion extends NodeBase {
 export interface Quantifier extends NodeBase {
     type: "Quantifier"
     parent: Alternative
+    kind: "?" | "*" | "+" | "custom"
     min: number
     max: number // can be Number.POSITIVE_INFINITY
     greedy: boolean

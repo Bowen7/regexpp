@@ -247,6 +247,7 @@ export namespace RegExpValidator {
          * A function that is called when the validator found a quantifier.
          * @param start The 0-based index of the first character.
          * @param end The next 0-based index of the last character.
+         * @param kind The kind of repeating.
          * @param min The minimum number of repeating.
          * @param max The maximum number of repeating.
          * @param greedy The flag to choose the longest matching.
@@ -254,6 +255,7 @@ export namespace RegExpValidator {
         onQuantifier?(
             start: number,
             end: number,
+            kind: "+" | "*" | "?" | "custom",
             min: number,
             max: number,
             greedy: boolean,
@@ -658,12 +660,13 @@ export class RegExpValidator {
     private onQuantifier(
         start: number,
         end: number,
+        kind: "+" | "*" | "?" | "custom",
         min: number,
         max: number,
         greedy: boolean,
     ): void {
         if (this._options.onQuantifier) {
-            this._options.onQuantifier(start, end, min, max, greedy)
+            this._options.onQuantifier(start, end, kind, min, max, greedy)
         }
     }
 
@@ -1128,17 +1131,21 @@ export class RegExpValidator {
         let min = 0
         let max = 0
         let greedy = false
+        let kind: "+" | "*" | "?" | "custom" = "custom"
 
         // QuantifierPrefix
         if (this.eat(Asterisk)) {
             min = 0
             max = Number.POSITIVE_INFINITY
+            kind = "*"
         } else if (this.eat(PlusSign)) {
             min = 1
             max = Number.POSITIVE_INFINITY
+            kind = "+"
         } else if (this.eat(QuestionMark)) {
             min = 0
             max = 1
+            kind = "?"
         } else if (this.eatBracedQuantifier(noConsume)) {
             min = this._lastMinValue
             max = this._lastMaxValue
@@ -1150,7 +1157,7 @@ export class RegExpValidator {
         greedy = !this.eat(QuestionMark)
 
         if (!noConsume) {
-            this.onQuantifier(start, this.index, min, max, greedy)
+            this.onQuantifier(start, this.index, kind, min, max, greedy)
         }
         return true
     }
